@@ -6,9 +6,9 @@ import com.ba.randomtraining.data.model.ExerciseResponse
 class ExerciseRepositoryImpl(
     private val apiService: ApiService
 ) : ExerciseRepository {
-    override suspend fun getExercises(): List<ExerciseResponse> {
+    override suspend fun getExercises(page: Int): List<ExerciseResponse> {
         return try {
-            apiService.fetchExercises()
+            apiService.fetchExercises(page)
         } catch (e: Exception) {
             throw e
         }

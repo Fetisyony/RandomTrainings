@@ -58,6 +58,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1")
     implementation("io.coil-kt.coil3:coil-gif:3.0.3")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.31.0-alpha")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
