@@ -17,22 +17,19 @@ import com.ba.randomtraining.data.api.ApiService
 import com.ba.randomtraining.ui.main.HomeScreen
 import com.ba.randomtraining.ui.theme.RandomTrainingTheme
 import com.ba.randomtraining.utils.RetrofitInstance
+import com.ba.randomtraining.viewmodel.MainViewModel
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            HomeScreen()
-        }
 
-        lifecycleScope.launch {
-            try {
-                val exercises = RetrofitInstance.exerciseRepository.getExercises()
-                Log.d("REPO_TEST", "Fetched Exercises: $exercises")
-            } catch (e: Exception) {
-                Log.e("REPO_TEST", "Error: ${e.message}")
+        val repository = RetrofitInstance.exerciseRepository
+
+        setContent {
+            RandomTrainingTheme {
+                HomeScreen(repository)
             }
         }
     }
