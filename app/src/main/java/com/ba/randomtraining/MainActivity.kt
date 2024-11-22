@@ -29,10 +29,10 @@ class MainActivity : ComponentActivity() {
 
         lifecycleScope.launch {
             try {
-                val exercises = RetrofitInstance.apiService.fetchExercises()
-                Log.d("API_TEST", "Fetched Exercises: $exercises")
+                val exercises = RetrofitInstance.exerciseRepository.getExercises()
+                Log.d("REPO_TEST", "Fetched Exercises: $exercises")
             } catch (e: Exception) {
-                Log.e("API_TEST", "Error: ${e.message}")
+                Log.e("REPO_TEST", "Error: ${e.message}")
             }
         }
     }
