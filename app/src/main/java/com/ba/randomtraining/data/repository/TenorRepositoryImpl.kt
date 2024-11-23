@@ -1,0 +1,35 @@
+package com.ba.randomtraining.data.repository
+
+import android.util.Log
+import coil3.network.HttpException
+import com.ba.randomtraining.data.api.ApiTenorService
+import com.ba.randomtraining.data.model.JasonResponse
+
+
+class TenorRepositoryImpl(
+    private val apiTenorService: ApiTenorService
+) : TenorRepository {
+    private var nextPosition: String? = ""
+
+    override suspend fun getJasonsInitial(): TenorRequestResult {
+        nextPosition = ""
+        return getJasonsNext()
+    }
+
+    override suspend fun getJasonsNext(): TenorRequestResult {
+        return try {
+            if (nextPosition != null) {
+                val response: JasonResponse = apiTenorService.fetchJason(pos = nextPosition!!)
+                nextPosition = response.next
+                TenorRequestResult.Success(response.results)
+            } else {
+                TenorRequestResult.Empty
+            }
+        } catch (e: HttpException) {
+            Log.d("ERRRROOOOORRRR", e.response.body.toString())
+            TenorRequestResult.Error(e)
+        } catch (e: Exception) {
+            TenorRequestResult.Error(e)
+        }
+    }
+}

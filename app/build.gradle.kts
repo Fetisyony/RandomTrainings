@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.ba.randomtraining"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.ba.randomtraining"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -57,8 +57,10 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.compose)
     implementation(libs.glide)
+    implementation(libs.coil3.coil.gif)
     implementation(libs.coil.gif)
     implementation(libs.accompanist.swiperefresh)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
