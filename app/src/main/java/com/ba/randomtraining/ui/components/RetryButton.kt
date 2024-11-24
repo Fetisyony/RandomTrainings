@@ -11,11 +11,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RetryButton(onClick: () -> Unit) {
+fun ErrorButton(
+    text: String,
+    onClick: () -> Unit
+) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(15.dp),
@@ -24,14 +28,24 @@ fun RetryButton(onClick: () -> Unit) {
             contentColor = Color.Gray
         ),
         modifier = Modifier
-            .width(115.dp)
+            .width(125.dp)
             .height(40.dp),
         border = BorderStroke(1.dp, Color.Gray),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(0.dp),
     ) {
         Text(
-            text = "Retry",
-            fontSize = 18.sp
+            text = text,
+            fontSize = 18.sp,
+            textAlign = TextAlign.Center
         )
+    }
+}
+
+@Composable
+fun RetryButton(onClick: () -> Unit) {
+    ErrorButton(
+        text = "Retry"
+    ) {
+        onClick()
     }
 }

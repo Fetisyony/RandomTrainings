@@ -1,10 +1,11 @@
 package com.ba.randomtraining.data.api
 
+import com.ba.randomtraining.BuildConfig
 import com.ba.randomtraining.data.model.JasonResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-private const val API_KEY = "AIzaSyAFHIaxInINVAW8HKhV4_44qHsgYBLditI"
+private const val API_KEY = BuildConfig.API_KEY
 private const val LIMIT = 5
 
 interface ApiTenorService {

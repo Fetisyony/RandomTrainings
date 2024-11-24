@@ -26,7 +26,4 @@ data class Gif(
         val h = dims[1].toFloat()
         return w / h
     }
-    fun getHeight(): Int {
-        return dims[1]
-    }
 }

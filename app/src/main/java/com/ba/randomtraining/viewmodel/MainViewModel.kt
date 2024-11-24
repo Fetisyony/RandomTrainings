@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import coil3.network.HttpException
 import com.ba.randomtraining.data.model.JasonSearchResultItem
 import com.ba.randomtraining.data.repository.TenorRepository
 import com.ba.randomtraining.data.repository.TenorRequestResult
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+
 
 class MainViewModelFactory(private val tenorRepository: TenorRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -26,15 +28,7 @@ sealed class FetchError {
         override fun getErrorMessage(): String = "Ok"
     }
     data object NetworkError : FetchError() {
-        override fun getErrorMessage(): String = "Error happened while loading.\nPlease check your internet connection."
-    }
-    // 5xx HTTP errors
-    data object ServerError : FetchError() {
-        override fun getErrorMessage(): String = "Error happened while loading.\nThe server is currently unavailable. Please"
-    }
-    // 4xx HTTP errors
-    data object ClientError : FetchError() {
-        override fun getErrorMessage(): String = "Error happened while loading.\nThere seems to be an issue with your request."
+        override fun getErrorMessage(): String = "An error occurred while loading.\nPlease check your internet connection."
     }
     // Last page reached
     data object NoDataLeftError : FetchError() {
@@ -51,7 +45,7 @@ sealed class FetchError {
 }
 
 data class ErrorStatus(
-    var updated: Boolean,
+    var seen: Boolean,
     var fetchError: FetchError
 )
 
@@ -72,6 +66,10 @@ class MainViewModel(private val tenorRepository: TenorRepository) : ViewModel() 
         fetchJason()
     }
 
+    fun markErrorAsSeen() {
+        _errorStatus.value = _errorStatus.value.copy(seen = true)
+    }
+
     fun fetchJason(refresh: Boolean = false) {
         viewModelScope.launch {
             Log.d("TEST",  "cccccccccccccccccccccccccccccccccccc")
@@ -86,24 +84,26 @@ class MainViewModel(private val tenorRepository: TenorRepository) : ViewModel() 
             } else
                 newJasonItems = tenorRepository.getJasonsNext()
 
+            if (refresh)
+                _jasonItems.value = emptyList()
             when (newJasonItems) {
                 is TenorRequestResult.Success -> {
-                    if (refresh)
-                        _jasonItems.value = newJasonItems.gifs
-                    else
-                        _jasonItems.value += newJasonItems.gifs
+                    _jasonItems.value += newJasonItems.gifs
                     _errorStatus.value.fetchError = FetchError.Ok
                 }
                 is TenorRequestResult.Empty -> {
                     _errorStatus.value.fetchError = FetchError.NoDataLeftError
                 }
                 is TenorRequestResult.Error -> {
-                    _errorStatus.value.fetchError = FetchError.NetworkError
+                    if (newJasonItems.exception is HttpException)
+                        _errorStatus.value.fetchError = FetchError.NetworkError
+                    else
+                        _errorStatus.value.fetchError = FetchError.UnexpectedError("Unexpected error occurred while loading")
                 }
             }
             _isLoading.value = false
             _isRefreshing.value = false
-            _errorStatus.value.updated = true
+            _errorStatus.value.seen = false
         }
     }
 }
