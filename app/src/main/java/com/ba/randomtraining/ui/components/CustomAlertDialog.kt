@@ -31,7 +31,7 @@ import com.ba.randomtraining.ui.theme.ErrorScreenColor
 import com.ba.randomtraining.ui.theme.typography
 
 @Composable
-fun DialogCustomCard(content: @Composable() (ColumnScope.() -> Unit)) {
+fun DialogCustomCard(content: @Composable (ColumnScope.() -> Unit)) {
     Card(
         shape = RoundedCornerShape(16.dp),
         colors = CardColors(
