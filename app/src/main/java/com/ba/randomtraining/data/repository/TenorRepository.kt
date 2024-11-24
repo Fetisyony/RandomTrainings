@@ -1,6 +1,10 @@
 package com.ba.randomtraining.data.repository
 
+import coil3.network.HttpException
+import com.ba.randomtraining.data.api.ApiTenorService
+import com.ba.randomtraining.data.model.JasonResponse
 import com.ba.randomtraining.data.model.JasonSearchResultItem
+import java.io.IOException
 
 
 sealed class FetchError {
@@ -29,8 +33,32 @@ sealed class TenorRequestResult {
     data class Error(val fetchError: FetchError) : TenorRequestResult()
 }
 
-interface TenorRepository {
-    suspend fun getJasonsInitial(): TenorRequestResult
+class TenorRepository (
+    private val apiTenorService: ApiTenorService
+) {
+    private var nextPosition: String? = ""
 
-    suspend fun getJasonsNext(): TenorRequestResult
+    suspend fun getJasonsInitial(): TenorRequestResult {
+        nextPosition = ""
+        return getJasonsNext()
+    }
+
+    suspend fun getJasonsNext(): TenorRequestResult {
+        return try {
+            if (nextPosition != null) {
+                val response: JasonResponse = apiTenorService.fetchJason(pos = nextPosition!!)
+                nextPosition = response.next
+                TenorRequestResult.Success(response.results)
+            } else {
+                TenorRequestResult.Error(FetchError.NoDataLeftError)
+            }
+        } catch (e: Exception) {
+            when (e) {
+                is IOException, is HttpException -> {
+                    TenorRequestResult.Error(FetchError.NetworkError)
+                }
+                else -> TenorRequestResult.Error(FetchError.UnexpectedError("Unexpected error occurred while loading"))
+            }
+        }
+    }
 }
