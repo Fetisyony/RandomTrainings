@@ -11,8 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ba.randomtraining.R
 import com.ba.randomtraining.ui.components.RetryButton
@@ -31,7 +31,8 @@ fun ErrorLoadingScreen(
     ) {
         Image(
             painter = painterResource(id = R.drawable.round_cloud_off_24),
-            contentDescription = "Error loading")
+            contentDescription = stringResource(R.string.error_loading_image_cd)
+        )
         Spacer(modifier = Modifier.height(5.dp))
         Text(
             text = errorMessage,
@@ -41,12 +42,4 @@ fun ErrorLoadingScreen(
         Spacer(modifier = Modifier.height(21.dp))
         RetryButton(onTryAgain)
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun ErrorLoadingScreenPreview() {
-    ErrorLoadingScreen(
-        "Error occurred"
-    ) {}
 }

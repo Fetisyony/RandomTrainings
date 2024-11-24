@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.SubcomposeAsyncImage
@@ -143,7 +144,7 @@ fun JasonBox(jasonItem: JasonSearchResultItem) {
     SubcomposeAsyncImage(
         model = model,
         imageLoader = imageLoader,
-        contentDescription = "Jason",
+        contentDescription = stringResource(R.string.image_description_main_list),
         modifier = Modifier
             .fillMaxWidth()
             .aspectRatio(jasonItem.mediaFormats.gif.getRatio()),
@@ -157,7 +158,7 @@ fun JasonBox(jasonItem: JasonSearchResultItem) {
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.round_cloud_off_24),
-                    contentDescription = "Error loading",
+                    contentDescription = stringResource(id = R.string.error_loading_image_cd),
                     modifier = Modifier
                         .size(80.dp)
                 )

@@ -1,6 +1,5 @@
 package com.ba.randomtraining.data.repository
 
-import androidx.core.content.contentValuesOf
 import coil3.network.HttpException
 import com.ba.randomtraining.data.api.ApiTenorService
 import com.ba.randomtraining.data.model.JasonResponse
