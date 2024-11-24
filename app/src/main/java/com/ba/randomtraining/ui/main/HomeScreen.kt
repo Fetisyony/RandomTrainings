@@ -14,6 +14,7 @@ import com.ba.randomtraining.ui.components.JasonGrid
 import com.ba.randomtraining.viewmodel.MainViewModel
 import com.ba.randomtraining.viewmodel.MainViewModelFactory
 
+// turning on experimental due to PullToRefreshBox
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(tenorRepository: TenorRepository) {
@@ -44,14 +45,15 @@ fun HomeScreen(tenorRepository: TenorRepository) {
 
         if (errorStatus.fetchError != FetchError.Ok) {
             if (jasonItems.isEmpty()) {
-                ErrorLoadingScreen {
+                ErrorLoadingScreen(
+                    errorStatus.fetchError.getErrorMessage()
+                ) {
                     viewModel.fetchJason(refresh = true)
                 }
             } else if (!errorStatus.seen) {
                 CustomAlertDialog(
                     message = errorStatus.fetchError.getErrorMessage(),
                     onConfirm = { viewModel.markErrorAsSeen() },
-                    onDismiss = { viewModel.markErrorAsSeen() }
                 )
             }
         }

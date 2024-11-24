@@ -40,6 +40,15 @@ import com.ba.randomtraining.ui.theme.CustomLightGray
 import com.ba.randomtraining.viewmodel.ErrorStatus
 
 
+fun isHighTimeToLoadNew(lastVisibleItemIndex: Int?, isLoading: Boolean, itemsSize: Int, errorStatus: ErrorStatus): Boolean {
+    val loadNewWhenLeftUntilBottom = 5
+
+    return lastVisibleItemIndex != null &&
+            !isLoading &&
+            lastVisibleItemIndex >= itemsSize - loadNewWhenLeftUntilBottom &&
+            errorStatus.fetchError == FetchError.Ok
+}
+
 @Suppress("NonSkippableComposable")
 @Composable
 fun JasonGrid(
@@ -56,7 +65,7 @@ fun JasonGrid(
         snapshotFlow { listState.layoutInfo.visibleItemsInfo }
             .collect { visibleItems ->
                 val lastVisibleItemIndex = visibleItems.lastOrNull()?.index
-                if (lastVisibleItemIndex != null && lastVisibleItemIndex >= jasonItems.size - 5 && !isLoading && errorStatus.fetchError == FetchError.Ok) {
+                if (isHighTimeToLoadNew(lastVisibleItemIndex, isLoading, jasonItems.size, errorStatus)) {
                     onLoadMore()
                 }
             }
@@ -89,7 +98,7 @@ fun JasonGrid(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(90.dp)
+                    .height(100.dp)
                     .padding(top = 0.dp, bottom = 30.dp),
                 contentAlignment = Alignment.Center
             ) {

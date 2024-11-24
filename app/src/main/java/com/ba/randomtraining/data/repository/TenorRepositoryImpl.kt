@@ -1,6 +1,5 @@
 package com.ba.randomtraining.data.repository
 
-import android.util.Log
 import coil3.network.HttpException
 import com.ba.randomtraining.data.api.ApiTenorService
 import com.ba.randomtraining.data.model.JasonResponse
@@ -31,7 +30,6 @@ class TenorRepositoryImpl(
         } catch (e: HttpException) {
             TenorRequestResult.Error(FetchError.ServerError)
         } catch (e: Exception) {
-            Log.d("TEST", "${e.stackTrace}")
             TenorRequestResult.Error(FetchError.UnexpectedError("Unexpected error occurred while loading"))
         }
     }

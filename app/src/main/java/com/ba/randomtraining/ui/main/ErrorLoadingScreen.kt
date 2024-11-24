@@ -1,6 +1,5 @@
 package com.ba.randomtraining.ui.main
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +19,10 @@ import com.ba.randomtraining.ui.components.RetryButton
 import com.ba.randomtraining.ui.theme.ErrorScreenColor
 
 @Composable
-fun ErrorLoadingScreen(onTryAgain: () -> Unit) {
+fun ErrorLoadingScreen(
+    errorMessage: String,
+    onTryAgain: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -32,7 +34,7 @@ fun ErrorLoadingScreen(onTryAgain: () -> Unit) {
             contentDescription = "Error loading")
         Spacer(modifier = Modifier.height(5.dp))
         Text(
-            text = "Error happened while loading.\nCheck your internet connection",
+            text = errorMessage,
             textAlign = TextAlign.Center,
             color = ErrorScreenColor
         )
@@ -44,7 +46,7 @@ fun ErrorLoadingScreen(onTryAgain: () -> Unit) {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun ErrorLoadingScreenPreview() {
-    ErrorLoadingScreen {
-        Log.d("Debug", "Button clicked")
-    }
+    ErrorLoadingScreen(
+        "Error occurred"
+    ) {}
 }

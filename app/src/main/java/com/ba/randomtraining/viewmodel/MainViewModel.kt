@@ -24,7 +24,7 @@ class MainViewModelFactory(private val tenorRepository: TenorRepository) : ViewM
 }
 
 data class ErrorStatus(
-    var seen: Boolean,
+    var seen: Boolean,  // whether an alert was already shown to the user
     var fetchError: FetchError
 )
 
@@ -58,12 +58,11 @@ class MainViewModel(private val tenorRepository: TenorRepository) : ViewModel() 
             val newJasonItems: TenorRequestResult
             if (refresh) {
                 newJasonItems = tenorRepository.getJasonsInitial()
+                _jasonItems.value = emptyList()
                 _isRefreshing.value = true
             } else
                 newJasonItems = tenorRepository.getJasonsNext()
 
-            if (refresh)
-                _jasonItems.value = emptyList()
             when (newJasonItems) {
                 is TenorRequestResult.Success -> {
                     _jasonItems.value += newJasonItems.gifs
