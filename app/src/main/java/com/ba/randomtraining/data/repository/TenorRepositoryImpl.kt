@@ -1,8 +1,10 @@
 package com.ba.randomtraining.data.repository
 
+import android.util.Log
 import coil3.network.HttpException
 import com.ba.randomtraining.data.api.ApiTenorService
 import com.ba.randomtraining.data.model.JasonResponse
+import java.io.IOException
 
 
 class TenorRepositoryImpl(
@@ -22,10 +24,15 @@ class TenorRepositoryImpl(
                 nextPosition = response.next
                 TenorRequestResult.Success(response.results)
             } else {
-                TenorRequestResult.Empty
+                TenorRequestResult.Error(FetchError.NoDataLeftError)
             }
+        } catch (e: IOException) {
+            TenorRequestResult.Error(FetchError.NetworkError)
+        } catch (e: HttpException) {
+            TenorRequestResult.Error(FetchError.ServerError)
         } catch (e: Exception) {
-            TenorRequestResult.Error(e)
+            Log.d("TEST", "${e.stackTrace}")
+            TenorRequestResult.Error(FetchError.UnexpectedError("Unexpected error occurred while loading"))
         }
     }
 }

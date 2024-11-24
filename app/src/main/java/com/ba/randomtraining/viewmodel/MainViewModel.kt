@@ -1,11 +1,10 @@
 package com.ba.randomtraining.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import coil3.network.HttpException
 import com.ba.randomtraining.data.model.JasonSearchResultItem
+import com.ba.randomtraining.data.repository.FetchError
 import com.ba.randomtraining.data.repository.TenorRepository
 import com.ba.randomtraining.data.repository.TenorRequestResult
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,31 +16,11 @@ import kotlinx.coroutines.launch
 class MainViewModelFactory(private val tenorRepository: TenorRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
             return MainViewModel(tenorRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
-}
-
-sealed class FetchError {
-    data object Ok : FetchError() {
-        override fun getErrorMessage(): String = "Ok"
-    }
-    data object NetworkError : FetchError() {
-        override fun getErrorMessage(): String = "An error occurred while loading.\nPlease check your internet connection."
-    }
-    // Last page reached
-    data object NoDataLeftError : FetchError() {
-        override fun getErrorMessage(): String = "You have reached the end of the lane"
-    }
-    // Any other
-    data class UnexpectedError(val message: String) : FetchError() {
-        override fun getErrorMessage(): String = "Unexpected error while loading"
-
-        fun getTechErrorMessage(): String = "Unexpected error: $message"
-    }
-
-    abstract fun getErrorMessage(): String
 }
 
 data class ErrorStatus(
@@ -72,7 +51,6 @@ class MainViewModel(private val tenorRepository: TenorRepository) : ViewModel() 
 
     fun fetchJason(refresh: Boolean = false) {
         viewModelScope.launch {
-            Log.d("TEST",  "cccccccccccccccccccccccccccccccccccc")
             if (isLoading.value || errorStatus.value.fetchError == FetchError.NoDataLeftError) return@launch
 
             _isLoading.value = true
@@ -91,14 +69,8 @@ class MainViewModel(private val tenorRepository: TenorRepository) : ViewModel() 
                     _jasonItems.value += newJasonItems.gifs
                     _errorStatus.value.fetchError = FetchError.Ok
                 }
-                is TenorRequestResult.Empty -> {
-                    _errorStatus.value.fetchError = FetchError.NoDataLeftError
-                }
                 is TenorRequestResult.Error -> {
-                    if (newJasonItems.exception is HttpException)
-                        _errorStatus.value.fetchError = FetchError.NetworkError
-                    else
-                        _errorStatus.value.fetchError = FetchError.UnexpectedError("Unexpected error occurred while loading")
+                    _errorStatus.value.fetchError = newJasonItems.fetchError
                 }
             }
             _isLoading.value = false

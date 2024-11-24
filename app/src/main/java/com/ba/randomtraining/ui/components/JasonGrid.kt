@@ -35,9 +35,9 @@ import coil3.gif.GifDecoder
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import com.ba.randomtraining.data.model.JasonSearchResultItem
+import com.ba.randomtraining.data.repository.FetchError
 import com.ba.randomtraining.ui.theme.CustomLightGray
 import com.ba.randomtraining.viewmodel.ErrorStatus
-import com.ba.randomtraining.viewmodel.FetchError
 
 
 @Suppress("NonSkippableComposable")

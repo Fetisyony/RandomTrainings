@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.ba.randomtraining.data.repository.FetchError
 import com.ba.randomtraining.data.repository.TenorRepository
 import com.ba.randomtraining.ui.components.CustomAlertDialog
 import com.ba.randomtraining.ui.components.JasonGrid
-import com.ba.randomtraining.viewmodel.FetchError
 import com.ba.randomtraining.viewmodel.MainViewModel
 import com.ba.randomtraining.viewmodel.MainViewModelFactory
 
