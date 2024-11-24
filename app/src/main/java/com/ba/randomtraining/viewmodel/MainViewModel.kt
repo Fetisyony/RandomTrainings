@@ -62,6 +62,9 @@ class MainViewModel : ViewModel() {
                 is TenorRequestResult.Error -> {
                     _errorStatus.value = ErrorStatus(false, newJasonItems.fetchError)
                 }
+                is TenorRequestResult.Empty -> {
+                    _errorStatus.value = ErrorStatus(true, FetchError.NoDataLeftError)
+                }
             }
             _isLoading.value = false
             _isRefreshing.value = false
