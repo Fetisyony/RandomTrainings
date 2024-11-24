@@ -10,9 +10,6 @@ sealed class FetchError {
     data object NetworkError : FetchError() {
         override fun getErrorMessage(): String = "An error occurred while loading.\nPlease check your internet connection."
     }
-    data object ServerError : FetchError() {
-        override fun getErrorMessage(): String = "An error occurred while loading.\nPlease, try again later."
-    }
     // Last page reached
     data object NoDataLeftError : FetchError() {
         override fun getErrorMessage(): String = "You have reached the end of the lane"

@@ -25,12 +25,13 @@ class TenorRepositoryImpl(
             } else {
                 TenorRequestResult.Error(FetchError.NoDataLeftError)
             }
-        } catch (e: IOException) {
-            TenorRequestResult.Error(FetchError.NetworkError)
-        } catch (e: HttpException) {
-            TenorRequestResult.Error(FetchError.ServerError)
         } catch (e: Exception) {
-            TenorRequestResult.Error(FetchError.UnexpectedError("Unexpected error occurred while loading"))
+            when (e) {
+                is IOException, is HttpException -> {
+                    TenorRequestResult.Error(FetchError.NetworkError)
+                }
+                else -> TenorRequestResult.Error(FetchError.UnexpectedError("Unexpected error occurred while loading"))
+            }
         }
     }
 }

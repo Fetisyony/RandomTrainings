@@ -1,11 +1,9 @@
 package com.ba.randomtraining.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.ba.randomtraining.data.model.JasonSearchResultItem
 import com.ba.randomtraining.data.repository.FetchError
-import com.ba.randomtraining.data.repository.TenorRepository
 import com.ba.randomtraining.data.repository.TenorRequestResult
 import com.ba.randomtraining.data.utils.RetrofitTenorInstance
 import kotlinx.coroutines.flow.MutableStateFlow
