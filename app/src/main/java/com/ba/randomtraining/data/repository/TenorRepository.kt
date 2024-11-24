@@ -11,10 +11,7 @@ sealed class FetchError {
     data object Ok : FetchError()
     data object NetworkError : FetchError()
     data object NoDataLeftError : FetchError() // Last page reached
-    // Any other
-    data class UnexpectedError(val message: String) : FetchError() {
-        fun getTechErrorMessage(): String = "Unexpected error: $message"
-    }
+    data object UnexpectedError : FetchError() // Any other
 }
 
 sealed class TenorRequestResult {
@@ -47,7 +44,7 @@ class TenorRepository (
                 is IOException, is HttpException -> {
                     TenorRequestResult.Error(FetchError.NetworkError)
                 }
-                else -> TenorRequestResult.Error(FetchError.UnexpectedError("Unexpected error occurred while loading"))
+                else -> TenorRequestResult.Error(FetchError.UnexpectedError)
             }
         }
     }
