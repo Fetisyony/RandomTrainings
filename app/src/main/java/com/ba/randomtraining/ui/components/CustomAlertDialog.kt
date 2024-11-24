@@ -50,7 +50,7 @@ fun DialogCustomCard(content: @Composable (ColumnScope.() -> Unit)) {
 
 @Composable
 fun CustomAlertDialog(
-    title: String = "Alert",
+    title: String = "Notification",
     message: String,
     confirmButtonText: String = "OK",
     onConfirm: () -> Unit,
@@ -101,8 +101,8 @@ fun MyScreen() {
 
         if (showDialog) {
             CustomAlertDialog(
-                title = "Alert",
-                message = "This is a custom alert dialog in Compose.",
+                title = "Notification",
+                message = "Some information here",
                 confirmButtonText = "Got it",
                 onConfirm = { showDialog = false },
                 onDismiss = { showDialog = false }
