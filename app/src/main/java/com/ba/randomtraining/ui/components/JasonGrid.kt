@@ -22,6 +22,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
@@ -122,16 +123,22 @@ fun JasonGrid(
 @Suppress("NonSkippableComposable")
 @Composable
 fun JasonBox(jasonItem: JasonSearchResultItem) {
+    val context = LocalContext.current
+
     val decoderFactory = if (SDK_INT >= 28) AnimatedImageDecoder.Factory() else GifDecoder.Factory()
-    val imageLoader = ImageLoader.Builder(LocalContext.current)
-        .components {
-            add(decoderFactory)
-        }
-        .build()
-    val model =  ImageRequest.Builder(LocalContext.current)
-        .data(jasonItem.mediaFormats.gif.url)
-        .crossfade(true)
-        .build()
+    val imageLoader = remember {
+        ImageLoader.Builder(context)
+            .components {
+                add(decoderFactory)
+            }
+            .build()
+    }
+    val model = remember(jasonItem.mediaFormats.gif.url) {
+        ImageRequest.Builder(context)
+            .data(jasonItem.mediaFormats.gif.url)
+            .crossfade(true)
+            .build()
+    }
 
     SubcomposeAsyncImage(
         model = model,
