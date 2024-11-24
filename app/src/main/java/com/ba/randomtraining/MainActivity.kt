@@ -13,11 +13,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val tenorRepository = RetrofitTenorInstance.tenorRepository
-
         setContent {
             RandomTrainingTheme {
-                HomeScreen(tenorRepository)
+                HomeScreen()
             }
         }
     }

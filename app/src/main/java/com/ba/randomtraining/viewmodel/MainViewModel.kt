@@ -7,28 +7,21 @@ import com.ba.randomtraining.data.model.JasonSearchResultItem
 import com.ba.randomtraining.data.repository.FetchError
 import com.ba.randomtraining.data.repository.TenorRepository
 import com.ba.randomtraining.data.repository.TenorRequestResult
+import com.ba.randomtraining.data.utils.RetrofitTenorInstance
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class MainViewModelFactory(private val tenorRepository: TenorRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MainViewModel(tenorRepository) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
-
 data class ErrorStatus(
     val seen: Boolean,  // whether an alert was already shown to the user
     val fetchError: FetchError
 )
 
-class MainViewModel(private val tenorRepository: TenorRepository) : ViewModel() {
+class MainViewModel : ViewModel() {
+    private val tenorRepository = RetrofitTenorInstance.tenorRepository
+
     private val _jasonItems = MutableStateFlow<List<JasonSearchResultItem>>(emptyList())
     val jasonItems: StateFlow<List<JasonSearchResultItem>> = _jasonItems.asStateFlow() // Expose as StateFlow
 
