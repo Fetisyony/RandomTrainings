@@ -1,8 +1,10 @@
 package com.ba.randomtraining.ui.components
 
 import android.os.Build.VERSION.SDK_INT
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -27,6 +29,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.SubcomposeAsyncImage
@@ -34,6 +37,7 @@ import coil3.gif.AnimatedImageDecoder
 import coil3.gif.GifDecoder
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import com.ba.randomtraining.R
 import com.ba.randomtraining.data.model.JasonSearchResultItem
 import com.ba.randomtraining.data.repository.FetchError
 import com.ba.randomtraining.ui.theme.CustomLightGray
@@ -137,6 +141,21 @@ fun JasonBox(jasonItem: JasonSearchResultItem) {
             .fillMaxWidth()
             .aspectRatio(jasonItem.mediaFormats.gif.getRatio()),
         contentScale = ContentScale.Crop,
+        error = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.round_cloud_off_24),
+                    contentDescription = "Error loading",
+                    modifier = Modifier
+                        .size(80.dp)
+                )
+            }
+        },
         loading = {
             Row(
                 modifier = Modifier
