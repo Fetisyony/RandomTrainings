@@ -21,7 +21,7 @@ class MainViewModel : ViewModel() {
     private val tenorRepository = RetrofitTenorInstance.tenorRepository
 
     private val _jasonItems = MutableStateFlow<List<JasonSearchResultItem>>(emptyList())
-    val jasonItems: StateFlow<List<JasonSearchResultItem>> = _jasonItems.asStateFlow() // Expose as StateFlow
+    val jasonItems: StateFlow<List<JasonSearchResultItem>> = _jasonItems.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()

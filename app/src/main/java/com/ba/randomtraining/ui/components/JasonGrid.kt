@@ -25,6 +25,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,7 +56,6 @@ fun isHighTimeToLoadNew(lastVisibleItemIndex: Int?, isLoading: Boolean, itemsSiz
             errorStatus.fetchError == FetchError.Ok
 }
 
-@Suppress("NonSkippableComposable")
 @Composable
 fun JasonGrid(
     jasonItems: List<JasonSearchResultItem>,
@@ -121,7 +121,6 @@ fun JasonGrid(
 
 }
 
-@Suppress("NonSkippableComposable")
 @Composable
 fun JasonBox(jasonItem: JasonSearchResultItem) {
     val context = LocalContext.current

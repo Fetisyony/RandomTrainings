@@ -1,5 +1,6 @@
 package com.ba.randomtraining.data.model
 
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.google.gson.annotations.SerializedName
 
 data class JasonResponse(
@@ -19,7 +20,7 @@ data class MediaFormats(
 
 data class Gif(
     val url: String,
-    val dims: List<Int>
+    val dims: SnapshotStateList<Int>
 ) {
     fun getRatio(): Float {
         val w = dims[0].toFloat()

@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.coil.gif)
     implementation(libs.accompanist.swiperefresh)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.kotlinx.collections.immutable)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
