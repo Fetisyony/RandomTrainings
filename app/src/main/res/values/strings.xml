@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">RandomTraining</string>
+    <string name="fetch_error_message_ok">OK</string>
+    <string name="fetch_error_message_network">An error occurred while loading.\nPlease check your internet connection.</string>
+    <string name="fetch_error_message_no_data_left">You have reached the end of the feed</string>
+    <string name="fetch_error_message_unexpected">Unexpected error while loading</string>
+    <string name="error_loading_image_cd">Error loading</string>
+    <string name="retry">Retry</string>
+    <string name="image_description_main_list">Jason</string>
+    <string name="default_dialog_title_notification">Notification</string>
+    <string name="dialog_confirm_button_default_text">OK</string>
 </resources>
