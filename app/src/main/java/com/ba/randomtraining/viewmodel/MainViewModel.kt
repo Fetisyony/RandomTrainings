@@ -1,5 +1,7 @@
 package com.ba.randomtraining.viewmodel
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ba.randomtraining.data.model.JasonSearchResultItem
@@ -20,8 +22,8 @@ data class ErrorStatus(
 class MainViewModel : ViewModel() {
     private val tenorRepository = RetrofitTenorInstance.tenorRepository
 
-    private val _jasonItems = MutableStateFlow<List<JasonSearchResultItem>>(emptyList())
-    val jasonItems: StateFlow<List<JasonSearchResultItem>> = _jasonItems.asStateFlow()
+    private val _jasonItems = mutableStateListOf<JasonSearchResultItem>()
+    val jasonItems: SnapshotStateList<JasonSearchResultItem> get() = _jasonItems
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -49,14 +51,14 @@ class MainViewModel : ViewModel() {
             val newJasonItems: TenorRequestResult
             if (refresh) {
                 newJasonItems = tenorRepository.getJasonsInitial()
-                _jasonItems.value = emptyList()
+                _jasonItems.clear()
                 _isRefreshing.value = true
             } else
                 newJasonItems = tenorRepository.getJasonsNext()
 
             when (newJasonItems) {
                 is TenorRequestResult.Success -> {
-                    _jasonItems.value += newJasonItems.gifs
+                    _jasonItems.addAll(newJasonItems.gifs)
                     _errorStatus.value = ErrorStatus(false, FetchError.Ok)
                 }
                 is TenorRequestResult.Error -> {

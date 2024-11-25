@@ -58,7 +58,7 @@ fun isHighTimeToLoadNew(lastVisibleItemIndex: Int?, isLoading: Boolean, itemsSiz
 
 @Composable
 fun JasonGrid(
-    jasonItems: List<JasonSearchResultItem>,
+    jasonItems: SnapshotStateList<JasonSearchResultItem>,
     isLoading: Boolean,
     errorStatus: ErrorStatus,
     onLoadMore: () -> Unit

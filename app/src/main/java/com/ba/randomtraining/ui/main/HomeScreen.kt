@@ -30,7 +30,7 @@ fun HomeScreen() {
     val context = LocalContext.current
 
     val viewModel: MainViewModel = viewModel()
-    val jasonItems by viewModel.jasonItems.collectAsState()
+    val jasonItems = viewModel.jasonItems
     val isLoading by viewModel.isLoading.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
     val errorStatus by viewModel.errorStatus.collectAsState()
