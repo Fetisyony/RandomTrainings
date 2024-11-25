@@ -1,6 +1,6 @@
 [versions]
 accompanistSwiperefresh = "0.31.0-alpha"
-agp = "8.5.2"
+agp = "8.7.2"
 coilCompose = "3.0.3"
 compose = "1.0.0-alpha.1"
 converterGson = "2.11.0"
